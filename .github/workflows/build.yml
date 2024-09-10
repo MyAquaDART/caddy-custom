@@ -21,12 +21,6 @@ jobs:
     - name: Inspect Docker Image
       run: docker inspect my-demo-image:${{ github.sha }}
 
-    - name: Download Aqua Scanner CLI
-      run: |
-        wget https://aqua-release.s3.amazonaws.com/aqua-scanner-cli-Linux.tar.gz
-        tar -xvzf aqua-scanner-cli-Linux.tar.gz
-        chmod +x scannercli
-
     - name: Docker Login to Aqua Registry
       run: |
         echo "${{ secrets.AQUA_REGISTRY_PASSWORD }}" | docker login registry.aquasec.com -u ${{ secrets.AQUA_REGISTRY_USERNAME }} --password-stdin

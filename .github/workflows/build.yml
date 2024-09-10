@@ -31,6 +31,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Docker Login to Aqua Registry
+      run: |
+        echo "${{ secrets.AQUA_REGISTRY_PASSWORD }}" | docker login registry.aquasec.com -u ${{ secrets.AQUA_REGISTRY_USERNAME }} --password-stdin
+
     - name: Run Aqua Container Scanner
       run: |
         docker run -v /var/run/docker.sock:/var/run/docker.sock \

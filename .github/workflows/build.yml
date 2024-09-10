@@ -2,9 +2,9 @@ name: Build image and push
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "aqua-container-scanner"]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "aqua-container-scanner"]
 
 
 jobs:
@@ -37,4 +37,4 @@ jobs:
         registry.aquasec.com/scanner:latest-saas scan \
         -H https://6e5d2cb597.cloud.aquasec.com \
         -A 94dd3561337f3a874bb8dd4d1a48b854ecb81f2f2316a936132efa26f658eff \
-        --local myimage:latest
+        --local my-demo-image:${{ github.sha }}

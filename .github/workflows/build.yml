@@ -34,26 +34,10 @@ jobs:
     - name: Inspect Docker Image
       run: docker inspect my-demo-image:${{ github.sha }}
 
-  scan_with_aqua_container:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
     - name: Docker Login to Aqua Registry
       run: |
         echo "${{ secrets.AQUA_REGISTRY_PASSWORD }}" | docker login registry.aquasec.com -u ${{ secrets.AQUA_REGISTRY_USERNAME }} --password-stdin
 
-    - name: Load Docker image
-      run: docker load -i my-image.tar
-
-    - name: List Docker Images
-      run: docker images
-    
-    - name: Inspect Docker Image
-      run: docker inspect my-demo-image:${{ github.sha }}
-    
     - name: Run Aqua Container Scanner
       run: |
         docker run -v /var/run/docker.sock:/var/run/docker.sock \
@@ -61,3 +45,4 @@ jobs:
         -H https://6e5d2cb597.cloud.aquasec.com \
         -A 494dd3561337f3a874bb8dd4d1a48b854ecb81f2f2316a936132efa26f658eff \
         --local my-demo-image:${{ github.sha }}
+
